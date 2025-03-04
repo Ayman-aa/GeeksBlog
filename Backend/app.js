@@ -1,18 +1,16 @@
 import express from "express";
+import bcrypt from "bcrypt";
 import cors from "cors";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
 import { collection, addDoc, getDocs, query, where, doc, updateDoc, deleteDoc, getDoc } from "firebase/firestore";
 import { db } from "./firebase.js";
 
 const app = express();
+const corsOptions = {
+  origin: 'https://t5code.netlify.app',
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 const port = 3000;
-const secretKey =
-  "2a98f0b5873d65c04a0cf81eeeafd826f6be76b2f816a79243d285e7aa78f1762a3cf237f86ddb3061e8596889f2b9c4aa4ffb31f667b7c05652a0cae16b55cb9a8b471b0fceb8603c6c6a2358e8ff390b1c567038b55dcb7b8aa7f92fd9aca4b0deaf9606b52111a1f66dbb178257aac8bd548347bf7be7afb09e312470ffbbe28f183abcc7ff0bff4d565335bd0813cf460ec54cbe8cef12cbaf45430a1e2debd2489c870b98a4326e3a8628599e88900960abfcd3ae86b33feab8e26e6a95e685668f0fcbe94a8bc66978794d576e943a4d97eef68c040fd94dda032f135907b79b92ace71ab702a3744e0dcbfe0b1a61a4b975ae7cf06f774e5c2295cf4b";
-
-// Use CORS middleware
-app.use(cors());
-
 app.use(express.json()); // Middleware to parse JSON bodies
 
 app.post("/api/add-post", async (req, res) => {
